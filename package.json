@@ -1,0 +1,19 @@
+{
+	"name": "node",
+	"version": "1.0.2",
+	"description": "simple node app",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"node"
+	],
+	"author": "Igor Malykhin <malykhinig@gmail.com>",
+	"license": "ISC",
+	"dependencies": {
+		"@types/yargs": "^17.0.32",
+		"chalk": "^4.1.2",
+		"yargs": "^17.7.2"
+	}
+}
