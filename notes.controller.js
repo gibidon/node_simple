@@ -3,7 +3,6 @@ const path = require("path")
 const chalk = require("chalk")
 
 const notesPath = path.join(__dirname, "db.json")
-// console.log(notesPath)
 
 async function addNote(title) {
 	const notes = await getNotes()
@@ -13,12 +12,10 @@ async function addNote(title) {
 
 	notes.push(note)
 
-	await fs.writeFile(notesPath, JSON.stringify(notes))
+	saveNotes(notes)
 
 	console.log(chalk.bgGreen("note is added"))
 }
-
-// addNote("test")
 
 async function getNotes() {
 	const notes = await fs.readFile(notesPath, { encoding: "utf-8" })
@@ -33,13 +30,34 @@ async function printNotes() {
 	})
 }
 
-async function removeNote(idToRemove) {
-	console.log("typeof id", typeof id)
-	let notes = await getNotes()
-
-	notes = notes.filter(({ id }) => id !== idToRemove)
-	console.log("changed notes", notes)
+async function saveNotes(notes) {
 	await fs.writeFile(notesPath, JSON.stringify(notes))
 }
 
-module.exports = { addNote, printNotes, removeNote }
+async function removeNote(idToRemove) {
+	let notes = await getNotes()
+
+	notes = notes.filter(({ id }) => id !== idToRemove)
+
+	saveNotes(notes)
+}
+
+async function editNote(id, newTitle) {
+	let notes = await getNotes()
+
+	notes.map((note) => {
+		if (note.id === id) {
+			console.log("id found", note.id)
+			note.title = newTitle
+		}
+	})
+
+	// const noteToEditIndex = notes.findIndex((note) => note.id === id)
+	// notes[noteToEditIndex].title = newTitle
+
+	//shorter but less readable? 2 walks through arrays instead of 1?
+
+	saveNotes(notes)
+}
+
+module.exports = { addNote, editNote, printNotes, removeNote }
